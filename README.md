@@ -1,10 +1,14 @@
 # Project #1. Schedular
 
-- 구조
+- 구조, Action
   - Back-end
     1. 
   - Front-end
-    2. 
+    2. 상단바
+       - Calendar, D-day ...
+       - D-day 클릭 시, drawer든지 아님 팝업이던지 정보 보여주기
+    3. Content
+       - monthly달력 표시
 - 기능 
   - Back-end
     1. E-mail to html, 그리고 그 html Parsing해와서 일정 추출
@@ -12,6 +16,7 @@
   - Front-end
     1. Monthly Calendar 화면
     2. 개인 이슈 불러오면 그걸로 ToDo Check...? - 고민 중
+    3. 진행 예정인 일정 별 D-day 표시하기
 
 
 
