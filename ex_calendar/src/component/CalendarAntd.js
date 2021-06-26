@@ -1,9 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/styles';
-import { Calendar, List } from 'antd';
+import { Layout, Calendar, List } from 'antd';
 
+const style = makeStyles({
+    root: {
+        height: 500,
+    }
+});
+
+const JsonData = [
+    {
+        month : 6,
+        date : 27,
+        title : 'Tomorrow',
+    }
+]
 
 const CalendarAntd = (value) => {
+    const classes = style();
     const [currentDate, setcurrentDate] = useState(0);
     const [currentMonth, setcurrentMonth] = useState(0);
     const [Event, setEvent] = useState('');
@@ -17,6 +31,7 @@ const CalendarAntd = (value) => {
 
     function dateCellRender(value) {
         const listData = getListData(value);
+        console.log("listData ", listData);
         return (
             <List itemLayout="horizontal" dataSource={listData} renderItem={item => ( 
                 <List.Item>
@@ -28,26 +43,21 @@ const CalendarAntd = (value) => {
     }
     function getListData(value) {
         let listData = [{title: ''}];
-        switch (value.month()) {
-            case currentMonth:
-                switch (value.date()) {
-                    case currentDate:
-                        listData = [
-                            { title : 'Today also Keep it up!!' },
-                        ];
-                        break;
-                    default:
-                }
-                break;
-            default:
+        if ((value.month() === currentMonth) && (value.date() === currentDate)) {
+            listData = [ { title : 'Today also Keep it up!!' }, {title : "2"} ];
         }
         return listData || [];
     }
+    /*const loadScheduleData = () => {
+        for (let i=1; i<JsonData.length; i++){
+            
+        }
+    }*/
 
     return (
-        <div>
+        <Layout>
             <Calendar dateCellRender={dateCellRender}></Calendar>
-        </div>
+        </Layout>
     )
 }
 export default CalendarAntd

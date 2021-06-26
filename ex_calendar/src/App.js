@@ -1,6 +1,8 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Layout, Menu } from 'antd';
+import { Link } from "react-router-dom";
 import { makeStyles } from '@material-ui/styles';
+import { HomeOutlined } from '@ant-design/icons';
 import './App.css';
 
 /*components*/
@@ -8,7 +10,12 @@ import Contentview from './view/Contentview'
 
 const { Header, Content, Footer } = Layout;
 const style = makeStyles({
+  root: {
+    padding: 0,
+    margin: 0,
+  },
   content: {
+    height: '90vh',
     padding: 10,
   },
   footer: {
@@ -22,11 +29,14 @@ const style = makeStyles({
 
 const App = () => {
   const classes = style();
+
   return (
-      <Layout>
+      <Layout className={classes.root}>
         <Header>
-          <Menu theme="white" mode="horizontal" defaultSelectedKeys={['1']}>
-            <Menu.Item key={1}>Calendar</Menu.Item>
+          <Menu theme="light" mode="horizontal">
+            <Menu.Item key={1} icon={<HomeOutlined />}><Link to="/">Calendar</Link></Menu.Item>
+            <Menu.Item key={2}><Link to="/notice">공지 사항</Link></Menu.Item>
+            <Menu.Item key={3}><Link to="/status">Status Check</Link></Menu.Item>
           </Menu>
         </Header>
         <Layout></Layout>
