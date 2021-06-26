@@ -34,7 +34,7 @@ const App = () => {
           <Contentview/>
         </Content>
         <Footer className={classes.footer}>
-          Project 1 ©2021 Created by Jihee Jun
+          Project #1 ©2021 Created by Jihee Jun
         </Footer>
       </Layout>
   )

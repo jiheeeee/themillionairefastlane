@@ -1,5 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/styles';
+import CalendarAntd from '../component/CalendarAntd';
 
 const style = makeStyles({
     root: {
@@ -13,7 +14,7 @@ const Contentview = () => {
     const classes = style();
     return (
         <div className={classes.root}>
-            Content 화면 입니다.
+            <CalendarAntd/>
         </div>
     )
 }
