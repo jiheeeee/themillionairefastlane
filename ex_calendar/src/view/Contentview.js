@@ -8,8 +8,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 const style = makeStyles({
     root: {
-        minHeight: '88vh',
-        padding: 24,
+        padding: 2,
         background: 'white',
     }
 });

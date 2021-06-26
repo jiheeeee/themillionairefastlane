@@ -15,7 +15,7 @@ const style = makeStyles({
     margin: 0,
   },
   content: {
-    height: '90vh',
+    //height: '90vh',
     padding: 10,
   },
   footer: {
