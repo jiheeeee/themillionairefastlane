@@ -1,21 +1,28 @@
-import {createStore} from 'redux';
+import { createStore } from 'redux';
 
-export default createStore(function(state,action){
-  if(state === undefined){
+export default createStore(function (state, action) {
+  if (state === undefined) {
     return {
-      prjCalendar:[]
+      prjCalendar: [],
+      developers: [],
     };
   }
-  switch(action.type){
-    /*case 'changeuser':
-      state.user = action.user;
-      return state;*/
+  switch (action.type) {
     case 'initializecontent':
       state.prjCalendar = [];
-      for(var i=0; i<action.prjCalendar.length; i++){
+      for (var i = 0; i < action.prjCalendar.length; i++) {
         state = {
           ...state,
           prjCalendar: [...state.prjCalendar, action.prjCalendar[i]]
+        };
+      }
+      return state;
+    case 'loadDevelopers':
+      state.developers = [];
+      for (var i = 0; i < action.developers.length; i++) {
+        state = {
+          ...state,
+          developers: [...state.developers, action.developers[i]]
         };
       }
       return state;

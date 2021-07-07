@@ -31,29 +31,28 @@ const CalendarAntd = (value) => {
     let baseUrl = "http://localhost:8000"
     useEffect(() => {
         resyncDB();
-        store.subscribe(()=>{
-        const prjCalendarfromStore = store.getState().prjCalendar;
-        for(let i=0; i<prjCalendarfromStore.length; i++){
-            setPrjCalendar(prjCalendarfromStore);
-        }
+        store.subscribe(() => {
+            const prjCalendarfromStore = store.getState().prjCalendar;
+            for (let i = 0; i < prjCalendarfromStore.length; i++) {
+                setPrjCalendar(prjCalendarfromStore);
+            }
         })
     }, []);
 
     const resyncDB = () => {
         axios
-        .get(baseUrl+'/api/prjcalendar/readdb')
-        .then((rspn)=>{
-            for(let i=0; i<rspn.data.length; i++){
-            let dateObj = new Date(rspn.data[i].due);
-            rspn.data[i].due = dateObj.toLocaleDateString("ko-KR", {timeZone: "Asia/Seoul"});
-            }
-            console.log("DB data : ", rspn.data);
-            store.dispatch({
-            type:'initializecontent',
-            prjCalendar: rspn.data,
+            .get(baseUrl + '/api/prjcalendar/readdb')
+            .then((rspn) => {
+                for (let i = 0; i < rspn.data.length; i++) {
+                    let dateObj = new Date(rspn.data[i].due);
+                    rspn.data[i].due = dateObj.toLocaleDateString("ko-KR", { timeZone: "Asia/Seoul" });
+                }
+                store.dispatch({
+                    type: 'initializecontent',
+                    prjCalendar: rspn.data,
+                });
+                idx = rspn.data.length;
             });
-            idx = rspn.data.length;
-        });
     }
     /*const JsonData = [
         {
@@ -99,42 +98,42 @@ const CalendarAntd = (value) => {
         let listData = [{ title: '' }];
         for (let i = 0; i < prjCalendar.length; i++) {
             let event = prjCalendar[i].due.split('. ');
-            let month = Number(event[1] -1);
-            let date = Number(event[2].replace('.',''));
+            let month = Number(event[1] - 1);
+            let date = Number(event[2].replace('.', ''));
             if ((value.month() === month) && (value.date() === date)) {
                 let ava;
                 let color;
-                if(prjCalendar[i].class === 'NT') {
+                if (prjCalendar[i].class === 'NT') {
                     ava = <Avatar size={18} style={{ backgroundColor: '#f56a00' }}>N</Avatar>;
                 }
-                else if(prjCalendar[i].class === 'PMC_F08C_wFDC') {
+                else if (prjCalendar[i].class === 'PMC_F08C_wFDC') {
                     ava = <Avatar size={18} style={{ backgroundColor: 'blue' }}>W</Avatar>;
                 }
-                else if(prjCalendar[i].class === 'PMC_F08C') {
+                else if (prjCalendar[i].class === 'PMC_F08C') {
                     ava = <Avatar size={18} style={{ backgroundColor: 'green' }}>P</Avatar>;
                 }
-                else if(prjCalendar[i].class === 'FK') {
+                else if (prjCalendar[i].class === 'FK') {
                     ava = <Avatar size={18} style={{ backgroundColor: 'orange' }}>K</Avatar>;
                 }
-                else if(prjCalendar[i].class === 'FE') {
+                else if (prjCalendar[i].class === 'FE') {
                     ava = <Avatar size={18} style={{ backgroundColor: 'red' }}>F</Avatar>;
                 }
                 else {
                     ava = <Avatar size={18} style={{ backgroundColor: 'gray' }}></Avatar>;
                 }
-                if(prjCalendar[i].type === '정규롬') {
+                if (prjCalendar[i].type === '정규롬') {
                     color = '#ffccc7';
                 }
-                else if(prjCalendar[i].type === '시험롬') {
+                else if (prjCalendar[i].type === '시험롬') {
                     color = '#ffffb8';
                 }
-                else if(prjCalendar[i].type === '빌드시작') {
+                else if (prjCalendar[i].type === '빌드시작') {
                     color = '#95de64';
                 }
                 else {
                     color = 'white';
                 }
-                listData.push({title : prjCalendar[i].title, avatar : ava, color : color});
+                listData.push({ title: prjCalendar[i].title, avatar: ava, color: color });
                 console.log('listData : ', listData);
             }
         }

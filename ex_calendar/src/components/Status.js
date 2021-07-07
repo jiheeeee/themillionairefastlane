@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
+import CheckVerify from './CheckVerify'
 
 const style = makeStyles({
     root: {
@@ -12,7 +13,7 @@ const Status = () => {
     const classes = style();
     return (
         <div className={classes.root}>
-            {"Status 화면"}
+            <CheckVerify/>
         </div>
     );
 }

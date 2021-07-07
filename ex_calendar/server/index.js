@@ -139,6 +139,41 @@ app.post("/api/prjcalendar/delete", (req,res)=>{
     });
 });
 
+app.get("/api/developers/readdb", (req,res)=>{
+    const sqlQuery = "SELECT * FROM todolistdb.developers;"
+    console.log(sqlQuery);
+    connection.query(sqlQuery, (err,result)=>{
+        res.send(result);
+        console.log("*err: "+err);
+        console.log("*result: "+result);
+    })
+});
+
+app.post("/api/developers/insert", (req,res)=>{
+    let sqlQuery = "INSERT INTO todolistdb.developers (id, name, romtitle, done)"+
+                    " VALUES ('"+req.body.id+"','"+req.body.name+"','"+req.body.romtitle+"','"+req.body.done+"');"
+    console.log(sqlQuery);
+    connection.query(sqlQuery, (err,result)=>{
+        res.send(result);
+        console.log("*err: "+err);
+        console.log("*result: "+result);
+    });
+});
+
+app.post("/api/developers/checkdone", (req,res)=>{
+    let sqlQuery = "UPDATE todolistdb.developers SET id="+req.body.id
+                    +",name='"+req.body.name
+                    +"',romtitle='"+req.body.romtitle
+                    +"',done='"+req.body.done
+                    +"' WHERE id = " + req.body.id + ";";
+    console.log(sqlQuery);
+    connection.query(sqlQuery, (err,result)=>{
+        res.send(result);
+        console.log("*err: "+err);
+        console.log("*result: "+result);
+    })
+});
+
 app.listen(PORT, ()=>{
     console.log(`running on port ${PORT}`)
 });

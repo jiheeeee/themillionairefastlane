@@ -13,7 +13,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 
 const styles = theme => ({
-  root:{
+  root: {
     width: "100%",
     marginTop: "20px",
     minHeight: '90vh',
@@ -23,20 +23,21 @@ const styles = theme => ({
   button: {
     margin: theme.spacing(1),
   },
-  fab:{
-    position:"fixed", bottom:"3rem", right:"3rem"
+  fab: {
+    position: "fixed", bottom: "3rem", right: "3rem"
   },
-  textField:{
+  textField: {
     marginBottom: "30px",
   },
 });
-const Alert = React.forwardRef((props, ref) => 
+const Alert = React.forwardRef((props, ref) =>
   <MuiAlert elevation={6} variant="filled" {...props} ref={ref} />
 );
 let idx = 0;
+let idxdev = 0;
 
 const Main = (props) => {
-  const {classes} = props;
+  const { classes } = props;
   const [openCreateModal, setOpenCreateModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [prjCalendar, setPrjCalendar] = useState([]);
@@ -47,16 +48,16 @@ const Main = (props) => {
   const [titletmp, setTitletmp] = useState('');
   const [desctmp, setDesctmp] = useState('');
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [duetmp, setDuetmp] = useState(selectedDate.getFullYear()+'-'+(selectedDate.getMonth()+1)+'-'+selectedDate.getDate());
+  const [duetmp, setDuetmp] = useState(selectedDate.getFullYear() + '-' + (selectedDate.getMonth() + 1) + '-' + selectedDate.getDate());
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarContent, setSnackbarContent] = useState('');
 
   let baseUrl = "http://localhost:8000"
   useEffect(() => {
     resyncDB();
-    store.subscribe(()=>{
+    store.subscribe(() => {
       const prjCalendarfromStore = store.getState().prjCalendar;
-      for(let i=0; i<prjCalendarfromStore.length; i++){
+      for (let i = 0; i < prjCalendarfromStore.length; i++) {
         setPrjCalendar(prjCalendarfromStore);
       }
     })
@@ -64,18 +65,30 @@ const Main = (props) => {
 
   const resyncDB = () => {
     axios
-      .get(baseUrl+'/api/prjcalendar/readdb')
-      .then((rspn)=>{
-        for(let i=0; i<rspn.data.length; i++){
+      .get(baseUrl + '/api/prjcalendar/readdb')
+      .then((rspn) => {
+        for (let i = 0; i < rspn.data.length; i++) {
           let dateObj = new Date(rspn.data[i].due);
-          rspn.data[i].due = dateObj.toLocaleDateString("ko-KR", {timeZone: "Asia/Seoul"});
+          rspn.data[i].due = dateObj.toLocaleDateString("ko-KR", { timeZone: "Asia/Seoul" });
         }
         console.log("DB data : ", rspn.data);
         store.dispatch({
-          type:'initializecontent',
+          type: 'initializecontent',
           prjCalendar: rspn.data,
         });
         idx = rspn.data.length;
+      });
+  }
+  const resyncDBdev = () => {
+    axios
+      .get(baseUrl + '/api/developers/readdb')
+      .then((rspn) => {
+        console.log("힁 data : ", rspn.data);
+        store.dispatch({
+          type: 'loadDevelopers',
+          developers: rspn.data,
+        });
+        idxdev = rspn.data.length;
       });
   }
   const handleWritePrjCalendar = () => {
@@ -83,12 +96,12 @@ const Main = (props) => {
   };
   const handleDateChange = (date) => {
     setSelectedDate(date);
-    setDuetmp(date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate());
+    setDuetmp(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
   };
   const handleCreateConfirm = () => {
     setOpenCreateModal(false);
     axios.post(
-      baseUrl+'/api/prjcalendar/insert',
+      baseUrl + '/api/prjcalendar/insert',
       {
         id: idx,
         class: classtmp,
@@ -98,17 +111,109 @@ const Main = (props) => {
         description: desctmp,
         due: duetmp,
       }
-    ).then(()=>{
+    ).then(() => {
       resyncDB();
     });
+    axios.post(
+      baseUrl + '/api/developers/insert',
+      {
+        id: idxdev,
+        name: '김남식',
+        romtitle: titletmp,
+        done: "0",
+      }
+    );
+    axios.post(
+      baseUrl + '/api/developers/insert',
+      {
+        id: idxdev+1,
+        name: '노승민',
+        romtitle: titletmp,
+        done: "0",
+      }
+    );
+    axios.post(
+      baseUrl + '/api/developers/insert',
+      {
+        id: idxdev+2,
+        name: '박용규',
+        romtitle: titletmp,
+        done: "0",
+      }
+    );
+    axios.post(
+      baseUrl + '/api/developers/insert',
+      {
+        id: idxdev+3,
+        name: '박준영',
+        romtitle: titletmp,
+        done: "0",
+      }
+    );
+    axios.post(
+      baseUrl + '/api/developers/insert',
+      {
+        id: idxdev+4,
+        name: '안재현',
+        romtitle: titletmp,
+        done: "0",
+      }
+    );
+    axios.post(
+      baseUrl + '/api/developers/insert',
+      {
+        id: idxdev+5,
+        name: '이동관',
+        romtitle: titletmp,
+        done: "0",
+      }
+    );
+    axios.post(
+      baseUrl + '/api/developers/insert',
+      {
+        id: idxdev+6,
+        name: '이동춘',
+        romtitle: titletmp,
+        done: "0",
+      }
+    );
+    axios.post(
+      baseUrl + '/api/developers/insert',
+      {
+        id: idxdev+7,
+        name: '이형희',
+        romtitle: titletmp,
+        done: "0",
+      }
+    );
+    axios.post(
+      baseUrl + '/api/developers/insert',
+      {
+        id: idxdev+8,
+        name: '이희망',
+        romtitle: titletmp,
+        done: "0",
+      }
+    );
+    axios.post(
+      baseUrl + '/api/developers/insert',
+      {
+        id: idxdev+9,
+        name: '전지희',
+        romtitle: titletmp,
+        done: "0",
+      }
+    ).then(() => {
+      resyncDBdev();
+    });
     setOpenSnackbar(true);
-    setTimeout(()=>{setOpenSnackbar(false)},1800);
+    setTimeout(() => { setOpenSnackbar(false) }, 1800);
     setSnackbarContent('Created!');
   };
   const handleEditConfirm = (id) => {
     setOpenEditModal(false);
     axios.post(
-      baseUrl+'/api/prjcalendar/edit',
+      baseUrl + '/api/prjcalendar/edit',
       {
         id: idx,
         class: classtmp,
@@ -118,23 +223,23 @@ const Main = (props) => {
         description: desctmp,
         due: duetmp,
       }
-    ).then(()=>{
+    ).then(() => {
       resyncDB();
     });
     setOpenSnackbar(true);
-    setTimeout(()=>{setOpenSnackbar(false)},1800);
+    setTimeout(() => { setOpenSnackbar(false) }, 1800);
     setSnackbarContent('Modified!');
   };
   const handleEdit = (id) => {
-    for(let i=0; i<prjCalendar.length; i++){
-      if(prjCalendar[i].id === id){
+    for (let i = 0; i < prjCalendar.length; i++) {
+      if (prjCalendar[i].id === id) {
         setIdtmp(prjCalendar[i].id);
         setClasstmp(prjCalendar[i].class);
         setTypetmp(prjCalendar[i].type);
         setVertmp(prjCalendar[i].ver);
         setTitletmp(prjCalendar[i].title);
         setDesctmp(prjCalendar[i].description);
-        setDuetmp(prjCalendar[i].due.replace('. ','-').replace('. ','-').replace('.',''));
+        setDuetmp(prjCalendar[i].due.replace('. ', '-').replace('. ', '-').replace('.', ''));
         break;
       }
     }
@@ -142,18 +247,18 @@ const Main = (props) => {
   };
   const handleDelete = (id) => {
     axios.post(
-      baseUrl+'/api/prjcalendar/delete', {id:id}
-    ).then(()=>{
+      baseUrl + '/api/prjcalendar/delete', { id: id }
+    ).then(() => {
       resyncDB();
     });
   };
 
-  return(
+  return (
     <main className={classes.root}>
-      <div className={classes.appBarSpacer}/>
+      <div className={classes.appBarSpacer} />
       <Container>
-      {prjCalendar.map(e=>{
-          return(
+        {prjCalendar.map(e => {
+          return (
             <Content
               id={e.id} class={e.class} type={e.type}
               ver={e.ver} title={e.title} description={e.description} due={e.due}
@@ -163,7 +268,7 @@ const Main = (props) => {
         <Dialog open={openCreateModal} aria-labelledby="dialog-title">
           <DialogTitle id="dialog-title">프로젝트 일정 추가</DialogTitle>
           <DialogContent>
-          <TextField
+            <TextField
               id="classinput" label="Class" fullWidth
               className={classes.textField}
               InputProps={{
@@ -173,7 +278,7 @@ const Main = (props) => {
                   </InputAdornment>
                 ),
               }}
-              onChange={(e)=>setClasstmp(e.target.value)}
+              onChange={(e) => setClasstmp(e.target.value)}
             />
             <TextField
               id="typeinput" label="Type" fullWidth
@@ -185,7 +290,7 @@ const Main = (props) => {
                   </InputAdornment>
                 ),
               }}
-              onChange={(e)=>setTypetmp(e.target.value)}
+              onChange={(e) => setTypetmp(e.target.value)}
             />
             <TextField
               id="verinput" label="Ver" fullWidth
@@ -197,7 +302,7 @@ const Main = (props) => {
                   </InputAdornment>
                 ),
               }}
-              onChange={(e)=>setVertmp(e.target.value)}
+              onChange={(e) => setVertmp(e.target.value)}
             />
             <TextField
               id="titleinput" label="Title" fullWidth
@@ -209,7 +314,7 @@ const Main = (props) => {
                   </InputAdornment>
                 ),
               }}
-              onChange={(e)=>setTitletmp(e.target.value)}
+              onChange={(e) => setTitletmp(e.target.value)}
             />
             <TextField
               id="descinput" label="Description" fullWidth
@@ -221,7 +326,7 @@ const Main = (props) => {
                   </InputAdornment>
                 ),
               }}
-              onChange={(e)=>setDesctmp(e.target.value)}
+              onChange={(e) => setDesctmp(e.target.value)}
             />
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
@@ -240,7 +345,7 @@ const Main = (props) => {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCreateConfirm} color="primary">Add</Button>
-            <Button onClick={()=>{setOpenCreateModal(false)}} color="primary">Cancel</Button>
+            <Button onClick={() => { setOpenCreateModal(false) }} color="primary">Cancel</Button>
           </DialogActions>
         </Dialog>
         <Dialog open={openEditModal} aria-labelledby="dialog-title">
@@ -257,7 +362,7 @@ const Main = (props) => {
                   </InputAdornment>
                 ),
               }}
-              onChange={(e)=>setClasstmp(e.target.value)}
+              onChange={(e) => setClasstmp(e.target.value)}
             />
             <TextField
               id="typeinput" label="Type" fullWidth
@@ -270,7 +375,7 @@ const Main = (props) => {
                   </InputAdornment>
                 ),
               }}
-              onChange={(e)=>setTypetmp(e.target.value)}
+              onChange={(e) => setTypetmp(e.target.value)}
             />
             <TextField
               id="verinput" label="Ver" fullWidth
@@ -283,7 +388,7 @@ const Main = (props) => {
                   </InputAdornment>
                 ),
               }}
-              onChange={(e)=>setVertmp(e.target.value)}
+              onChange={(e) => setVertmp(e.target.value)}
             />
             <TextField
               id="titleinput" label="Title" fullWidth
@@ -296,7 +401,7 @@ const Main = (props) => {
                   </InputAdornment>
                 ),
               }}
-              onChange={(e)=>setTitletmp(e.target.value)}
+              onChange={(e) => setTitletmp(e.target.value)}
             />
             <TextField
               id="descinput" label="Description" fullWidth
@@ -309,7 +414,7 @@ const Main = (props) => {
                   </InputAdornment>
                 ),
               }}
-              onChange={(e)=>setDesctmp(e.target.value)}
+              onChange={(e) => setDesctmp(e.target.value)}
             />
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
@@ -327,8 +432,8 @@ const Main = (props) => {
             </MuiPickersUtilsProvider>
           </DialogContent>
           <DialogActions>
-            <Button onClick={()=>{handleEditConfirm(idtmp)}} color="primary">Edit</Button>
-            <Button onClick={()=>{setOpenEditModal(false)}} color="primary">Cancel</Button>
+            <Button onClick={() => { handleEditConfirm(idtmp) }} color="primary">Edit</Button>
+            <Button onClick={() => { setOpenEditModal(false) }} color="primary">Cancel</Button>
           </DialogActions>
         </Dialog>
       </Container>
@@ -339,7 +444,7 @@ const Main = (props) => {
         className={classes.fab}
         color="primary"
         onClick={handleWritePrjCalendar}>
-        <EditIcon/>
+        <EditIcon />
       </Fab>
     </main>
   );
